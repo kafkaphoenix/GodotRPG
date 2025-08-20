@@ -1,8 +1,8 @@
 [gd_scene load_steps=64 format=3 uid="uid://cvjm1p33dd754"]
 
-[ext_resource type="Script" path="res://scenes/game/characters/player.gd" id="1_y04ut"]
+[ext_resource type="Script" uid="uid://spwtu6n6fgvt" path="res://scenes/game/characters/player.gd" id="1_y04ut"]
 [ext_resource type="Texture2D" uid="uid://c5vuoxykmyxlo" path="res://assets/Player/Player.png" id="2_q5gxf"]
-[ext_resource type="Shader" path="res://scenes/game/characters/blink.gdshader" id="3_3ed8y"]
+[ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_3ed8y"]
 [ext_resource type="PackedScene" uid="uid://blsigjq1fpj1d" path="res://scenes/collisions/hitbox.tscn" id="3_pgtue"]
 [ext_resource type="AudioStream" uid="uid://c6mysjvqbfttd" path="res://assets/Music and Sounds/Swipe.wav" id="4_fjot2"]
 [ext_resource type="AudioStream" uid="uid://clpoxum6awjb4" path="res://assets/Music and Sounds/Evade.wav" id="5_hv62b"]
@@ -564,23 +564,23 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_60mop"]
 _data = {
-"AttackDown": SubResource("Animation_bg3q1"),
-"AttackLeft": SubResource("Animation_n8ouo"),
-"AttackRight": SubResource("Animation_40nh6"),
-"AttackUp": SubResource("Animation_4q2lj"),
-"IdleDown": SubResource("Animation_ysyfm"),
-"IdleLeft": SubResource("Animation_w7boc"),
-"IdleRight": SubResource("Animation_lgijp"),
-"IdleUp": SubResource("Animation_pua3e"),
-"RESET": SubResource("Animation_bd3yv"),
-"RollDown": SubResource("Animation_osgsx"),
-"RollLeft": SubResource("Animation_qcccp"),
-"RollRight": SubResource("Animation_215y6"),
-"RollUp": SubResource("Animation_tgrby"),
-"RunDown": SubResource("Animation_m7ssj"),
-"RunLeft": SubResource("Animation_ppf0o"),
-"RunRight": SubResource("Animation_88umd"),
-"RunUp": SubResource("Animation_8hmhh")
+&"AttackDown": SubResource("Animation_bg3q1"),
+&"AttackLeft": SubResource("Animation_n8ouo"),
+&"AttackRight": SubResource("Animation_40nh6"),
+&"AttackUp": SubResource("Animation_4q2lj"),
+&"IdleDown": SubResource("Animation_ysyfm"),
+&"IdleLeft": SubResource("Animation_w7boc"),
+&"IdleRight": SubResource("Animation_lgijp"),
+&"IdleUp": SubResource("Animation_pua3e"),
+&"RESET": SubResource("Animation_bd3yv"),
+&"RollDown": SubResource("Animation_osgsx"),
+&"RollLeft": SubResource("Animation_qcccp"),
+&"RollRight": SubResource("Animation_215y6"),
+&"RollUp": SubResource("Animation_tgrby"),
+&"RunDown": SubResource("Animation_m7ssj"),
+&"RunLeft": SubResource("Animation_ppf0o"),
+&"RunRight": SubResource("Animation_88umd"),
+&"RunUp": SubResource("Animation_8hmhh")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_o1nog"]
@@ -772,9 +772,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rqvll"]
 _data = {
-"RESET": SubResource("Animation_s1abu"),
-"Start": SubResource("Animation_ksdvb"),
-"Stop": SubResource("Animation_7fpyi")
+&"RESET": SubResource("Animation_s1abu"),
+&"Start": SubResource("Animation_ksdvb"),
+&"Stop": SubResource("Animation_7fpyi")
 }
 
 [node name="Player" type="CharacterBody2D"]
@@ -802,7 +802,7 @@ shape = SubResource("CapsuleShape2D_5uhqi")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 deterministic = true
 libraries = {
-"": SubResource("AnimationLibrary_60mop")
+&"": SubResource("AnimationLibrary_60mop")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -838,7 +838,7 @@ volume_db = -15.0
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_rqvll")
+&"": SubResource("AnimationLibrary_rqvll")
 }
 
 [editable path="HitboxPivot/SwordHitbox"]

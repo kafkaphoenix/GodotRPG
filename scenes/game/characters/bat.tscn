@@ -1,9 +1,9 @@
 [gd_scene load_steps=27 format=3 uid="uid://idyb3vjq4dky"]
 
 [ext_resource type="Texture2D" uid="uid://bo0um6gbf2apv" path="res://assets/Enemies/Bat.png" id="1_pw7ta"]
-[ext_resource type="Script" path="res://scenes/game/characters/bat.gd" id="1_ttswy"]
+[ext_resource type="Script" uid="uid://c77741l56gyhb" path="res://scenes/game/characters/bat.gd" id="1_ttswy"]
 [ext_resource type="Texture2D" uid="uid://7srk0k6ximei" path="res://assets/Shadows/SmallShadow.png" id="2_ymttf"]
-[ext_resource type="Shader" path="res://scenes/game/characters/blink.gdshader" id="3_6yuup"]
+[ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_6yuup"]
 [ext_resource type="PackedScene" uid="uid://b6sueieqp6l76" path="res://scenes/collisions/hurtbox.tscn" id="4_4dxry"]
 [ext_resource type="PackedScene" uid="uid://c2ivyh2b6aqfj" path="res://scenes/game/characters/stats.tscn" id="5_5ijyl"]
 [ext_resource type="PackedScene" uid="uid://bc151gx2jhkb6" path="res://assets/Enemies/player_detection_zone.tscn" id="6_h0ik2"]
@@ -122,9 +122,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8mkj0"]
 _data = {
-"RESET": SubResource("Animation_qa2ki"),
-"Start": SubResource("Animation_nn0l4"),
-"Stop": SubResource("Animation_k1mdp")
+&"RESET": SubResource("Animation_qa2ki"),
+&"Start": SubResource("Animation_nn0l4"),
+&"Stop": SubResource("Animation_k1mdp")
 }
 
 [node name="Bat" type="CharacterBody2D"]
@@ -179,7 +179,7 @@ shape = SubResource("CircleShape2D_20atd")
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_8mkj0")
+&"": SubResource("AnimationLibrary_8mkj0")
 }
 
 [editable path="PlayerDetectionZone"]

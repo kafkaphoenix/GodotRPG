@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgf4s2ktne6ug"]
+
+[ext_resource type="AudioStream" uid="uid://bwyqvli2ek1ym" path="res://assets/Music and Sounds/Hurt.wav" id="1_my5sn"]
+
+[sub_resource type="GDScript" id="GDScript_d60ux"]
+script/source = "extends AudioStreamPlayer
+
+func _ready() -> void:
+    finished.connect(queue_free)
+    play()
+"
+
+[node name="PlayerHurtSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_my5sn")
+volume_db = -15.0
+script = SubResource("GDScript_d60ux")

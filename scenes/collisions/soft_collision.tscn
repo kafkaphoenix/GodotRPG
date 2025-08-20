@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgo2ork35u6jt"]
+
+[ext_resource type="Script" path="res://scenes/collisions/soft_collision.gd" id="1_aoruf"]
+
+[node name="SoftCollision" type="Area2D"]
+script = ExtResource("1_aoruf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di4xehsledd2o"
-path="res://.godot/imported/LargeShadow.png-526b34e6fa4d0af837e4370f0b5ae0e6.ctex"
+uid="uid://dfjbj3tj656ai"
+path="res://.godot/imported/cliff_tileset.png-a7d06bc5d5a1f618a0210fda1e2ce2c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Shadows/LargeShadow.png"
-dest_files=["res://.godot/imported/LargeShadow.png-526b34e6fa4d0af837e4370f0b5ae0e6.ctex"]
+source_file="res://assets/world/cliff_tileset.png"
+dest_files=["res://.godot/imported/cliff_tileset.png-a7d06bc5d5a1f618a0210fda1e2ce2c4.ctex"]
 
 [params]
 

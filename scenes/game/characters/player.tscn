@@ -1,13 +1,13 @@
 [gd_scene load_steps=64 format=3 uid="uid://cvjm1p33dd754"]
 
 [ext_resource type="Script" uid="uid://spwtu6n6fgvt" path="res://scenes/game/characters/player.gd" id="1_y04ut"]
-[ext_resource type="Texture2D" uid="uid://c5vuoxykmyxlo" path="res://assets/Player/Player.png" id="2_q5gxf"]
+[ext_resource type="Texture2D" uid="uid://c5vuoxykmyxlo" path="res://assets/player/player.png" id="2_q5gxf"]
 [ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_3ed8y"]
 [ext_resource type="PackedScene" uid="uid://blsigjq1fpj1d" path="res://scenes/collisions/hitbox.tscn" id="3_pgtue"]
-[ext_resource type="AudioStream" uid="uid://c6mysjvqbfttd" path="res://assets/Music and Sounds/Swipe.wav" id="4_fjot2"]
-[ext_resource type="AudioStream" uid="uid://clpoxum6awjb4" path="res://assets/Music and Sounds/Evade.wav" id="5_hv62b"]
+[ext_resource type="AudioStream" uid="uid://c6mysjvqbfttd" path="res://assets/sounds/swipe.wav" id="4_fjot2"]
+[ext_resource type="AudioStream" uid="uid://clpoxum6awjb4" path="res://assets/sounds/evade.wav" id="5_hv62b"]
 [ext_resource type="PackedScene" uid="uid://b6sueieqp6l76" path="res://scenes/collisions/hurtbox.tscn" id="5_yesoh"]
-[ext_resource type="Texture2D" uid="uid://dgigxcr1h0trt" path="res://assets/Shadows/MediumShadow.png" id="6_xm727"]
+[ext_resource type="Texture2D" uid="uid://dgigxcr1h0trt" path="res://assets/shadows/medium_shadow.png" id="6_xm727"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v8vee"]
 resource_local_to_scene = true

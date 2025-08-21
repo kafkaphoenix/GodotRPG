@@ -13,7 +13,7 @@ config_version=5
 config/name="action_rpg"
 config/description="A demo action rpg project!"
 config/version="v0.1.0"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.png"
 

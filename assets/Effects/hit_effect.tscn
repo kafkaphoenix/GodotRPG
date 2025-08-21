@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://c2eeoltkqvdkj"]
 
-[ext_resource type="Texture2D" uid="uid://3nwoo0qll1r5" path="res://assets/Effects/HitEffect.png" id="1_8g4bq"]
-[ext_resource type="Script" uid="uid://dtllrbtqu4xi7" path="res://assets/Effects/effect.gd" id="2_5vaov"]
-[ext_resource type="AudioStream" uid="uid://c6qf8xgxbduli" path="res://assets/Music and Sounds/Hit.wav" id="3_xo6e6"]
+[ext_resource type="Texture2D" uid="uid://3nwoo0qll1r5" path="res://assets/effects/hit_effect.png" id="1_8g4bq"]
+[ext_resource type="Script" uid="uid://dtllrbtqu4xi7" path="res://assets/effects/effect.gd" id="2_5vaov"]
+[ext_resource type="AudioStream" uid="uid://c6qf8xgxbduli" path="res://assets/sounds/hit.wav" id="3_xo6e6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nwrwn"]
 atlas = ExtResource("1_8g4bq")

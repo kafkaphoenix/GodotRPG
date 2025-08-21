@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgf4s2ktne6ug"]
 
-[ext_resource type="AudioStream" uid="uid://bwyqvli2ek1ym" path="res://assets/Music and Sounds/Hurt.wav" id="1_my5sn"]
+[ext_resource type="AudioStream" uid="uid://bwyqvli2ek1ym" path="res://assets/sounds/hurt.wav" id="1_my5sn"]
 
 [sub_resource type="GDScript" id="GDScript_d60ux"]
 script/source = "extends AudioStreamPlayer

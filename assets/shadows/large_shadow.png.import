@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgigxcr1h0trt"
-path="res://.godot/imported/MediumShadow.png-a1796c5f2ea585b3f3887a0b4467582d.ctex"
+uid="uid://di4xehsledd2o"
+path="res://.godot/imported/large_shadow.png-d94df1f8909ffb344a5e5a19116197b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Shadows/MediumShadow.png"
-dest_files=["res://.godot/imported/MediumShadow.png-a1796c5f2ea585b3f3887a0b4467582d.ctex"]
+source_file="res://assets/shadows/large_shadow.png"
+dest_files=["res://.godot/imported/large_shadow.png-d94df1f8909ffb344a5e5a19116197b1.ctex"]
 
 [params]
 

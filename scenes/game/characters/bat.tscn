@@ -1,15 +1,15 @@
 [gd_scene load_steps=27 format=3 uid="uid://idyb3vjq4dky"]
 
-[ext_resource type="Texture2D" uid="uid://bo0um6gbf2apv" path="res://assets/Enemies/Bat.png" id="1_pw7ta"]
+[ext_resource type="Texture2D" uid="uid://bo0um6gbf2apv" path="res://assets/enemies/bat.png" id="1_pw7ta"]
 [ext_resource type="Script" uid="uid://c77741l56gyhb" path="res://scenes/game/characters/bat.gd" id="1_ttswy"]
-[ext_resource type="Texture2D" uid="uid://7srk0k6ximei" path="res://assets/Shadows/SmallShadow.png" id="2_ymttf"]
+[ext_resource type="Texture2D" uid="uid://7srk0k6ximei" path="res://assets/shadows/small_shadow.png" id="2_ymttf"]
 [ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_6yuup"]
 [ext_resource type="PackedScene" uid="uid://b6sueieqp6l76" path="res://scenes/collisions/hurtbox.tscn" id="4_4dxry"]
 [ext_resource type="PackedScene" uid="uid://c2ivyh2b6aqfj" path="res://scenes/game/characters/stats.tscn" id="5_5ijyl"]
-[ext_resource type="PackedScene" uid="uid://bc151gx2jhkb6" path="res://assets/Enemies/player_detection_zone.tscn" id="6_h0ik2"]
+[ext_resource type="PackedScene" uid="uid://bc151gx2jhkb6" path="res://assets/enemies/player_detection_zone.tscn" id="6_h0ik2"]
 [ext_resource type="PackedScene" uid="uid://blsigjq1fpj1d" path="res://scenes/collisions/hitbox.tscn" id="7_7sxg7"]
 [ext_resource type="PackedScene" uid="uid://dgo2ork35u6jt" path="res://scenes/collisions/soft_collision.tscn" id="8_55m0y"]
-[ext_resource type="PackedScene" uid="uid://w11uwvdx4vd6" path="res://assets/Enemies/wander_controller.tscn" id="9_gj1qt"]
+[ext_resource type="PackedScene" uid="uid://w11uwvdx4vd6" path="res://assets/enemies/wander_controller.tscn" id="9_gj1qt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_62ri3"]
 resource_local_to_scene = true

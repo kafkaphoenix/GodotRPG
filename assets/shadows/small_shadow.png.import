@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c20akliawjamn"
-path="res://.godot/imported/GrassBackground.png-efbd9f8f1ea5c83860c587c7988b8b6b.ctex"
+uid="uid://7srk0k6ximei"
+path="res://.godot/imported/small_shadow.png-232d89b4b0628c3c772e1d53ade4cd88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/World/GrassBackground.png"
-dest_files=["res://.godot/imported/GrassBackground.png-efbd9f8f1ea5c83860c587c7988b8b6b.ctex"]
+source_file="res://assets/shadows/small_shadow.png"
+dest_files=["res://.godot/imported/small_shadow.png-232d89b4b0628c3c772e1d53ade4cd88.ctex"]
 
 [params]
 

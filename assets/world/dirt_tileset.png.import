@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwq1owk324d2"
-path="res://.godot/imported/EnemyDeathEffect.png-5c329254bfe7cc58aa8bb08400fccdc3.ctex"
+uid="uid://cr0eq4ergo65a"
+path="res://.godot/imported/dirt_tileset.png-eaf060b73b2cf976c3170ed7e153ec5f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Effects/EnemyDeathEffect.png"
-dest_files=["res://.godot/imported/EnemyDeathEffect.png-5c329254bfe7cc58aa8bb08400fccdc3.ctex"]
+source_file="res://assets/world/dirt_tileset.png"
+dest_files=["res://.godot/imported/dirt_tileset.png-eaf060b73b2cf976c3170ed7e153ec5f.ctex"]
 
 [params]
 

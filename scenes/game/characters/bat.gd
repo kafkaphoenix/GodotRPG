@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const BatDeathEffect: PackedScene  = preload("res://assets/Effects/bat_death_effect.tscn") 
+const BAT_DEATH_EFFECT: PackedScene  = preload("res://assets/Effects/bat_death_effect.tscn") 
 
 enum State {
     IDLE,
@@ -13,7 +13,7 @@ const randomStates: Array = [State.IDLE, State.WANDER]
 @export var KNOCKBACK_SPEED := 120
 @export var AIR_FRICTION := 100
 @export var ACCELERATION := 300
-@export var MAX_SPEED := 50
+@export var SPEED := 50
 @export var PUSHBACK := 400
 @export var TOLERANCE := 5
 @export var INVINCIBILITY := 0.4
@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 
 func move_toward_point(point: Vector2, delta: float) -> void:
     var direction := global_position.direction_to(point)
-    velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION * delta)
+    velocity = velocity.move_toward(direction * SPEED, ACCELERATION * delta)
     sprite.flip_h = velocity.x < 0
     
 func restart_state() -> void:
@@ -94,7 +94,7 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
     velocity = direction * KNOCKBACK_SPEED
     var swordHitbox := area as Hitbox
     stats.health -= swordHitbox.damage
-    stats.print_debug()
+    # stats.print_debug()
     hurtbox.create_hit_effect()
     hurtbox.start_invincibility(INVINCIBILITY)
     
@@ -103,9 +103,9 @@ func _on_stats_no_health() -> void:
     queue_free()
 
 func create_bat_death_effect() -> void:
-    var batDeathEffect: Node2D = BatDeathEffect.instantiate()
-    batDeathEffect.position = self.position
-    get_parent().add_child(batDeathEffect)
+    var bat_death_effect: Node2D = BAT_DEATH_EFFECT.instantiate()
+    bat_death_effect.position = self.position
+    get_parent().add_child(bat_death_effect)
 
 func _on_hurtbox_invincibility_started() -> void:
     blinkAnimationPlayer.play("Start")

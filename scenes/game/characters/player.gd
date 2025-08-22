@@ -1,10 +1,6 @@
 extends CharacterBody2D
 
-@export var MAX_SPEED := 80
-@export var ACCELERATION := 500
-@export var ROLL_SPEED := 125
-@export var FRICTION := 500
-@export var INVINCIBILITY := 0.6
+const PLAYER_HURT_SOUND := preload("res://scenes/game/characters/player_hurt_sound.tscn")
 
 enum State {
     MOVE,
@@ -12,20 +8,25 @@ enum State {
     ATTACK
 }
 
-var state := State.MOVE
-var roll_vector := Vector2.DOWN
-var stats: Stats = PlayerStats
+@export var SPEED := 80
+@export var ACCELERATION := 500
+@export var ROLL_SPEED := 125
+@export var FRICTION := 500
+@export var INVINCIBILITY := 0.6
 
-@onready var animationPlayer: AnimationPlayer = $AnimationPlayer
-@onready var animationTree: AnimationTree = $AnimationTree
+var stats: Stats = PlayerStats
+var input_vector := Vector2.ZERO
+var last_input_vector := Vector2.ZERO
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var playback: AnimationNodeStateMachinePlayback = animation_tree.get(&"parameters/StateMachine/playback")
 @onready var swordHitbox: Hitbox = $HitboxPivot/SwordHitbox
 @onready var hurtbox: Hurtbox = $Hurtbox
-@onready var animationCurrentState: AnimationNodeStateMachinePlayback = animationTree.get(&"parameters/playback")
-@onready var blinkAnimationPlayer: AnimationPlayer = $BlinkAnimationPlayer
-const playerHurtSound := preload("res://scenes/game/characters/player_hurt_sound.tscn")
+@onready var blink_animation_player: AnimationPlayer = $BlinkAnimationPlayer
 
 func _ready() -> void:
     # for top downs games: all collisions are considered walls
+    # grounded is for platform games
     motion_mode = MOTION_MODE_FLOATING
     set_collision_layer_value(CollisionsLayers.Layers.PLAYER, true)
     set_collision_mask_value(CollisionsLayers.Layers.WORLD, true)
@@ -33,8 +34,6 @@ func _ready() -> void:
     hurtbox.set_collision_mask_value(CollisionsLayers.Layers.ENEMIES, true)
     swordHitbox.set_collision_layer_value(CollisionsLayers.Layers.PLAYERSWORD, true)
     
-    animationTree.active = true
-    animationTree.animation_finished.connect(_on_animation_tree_animation_finished)
     stats.no_health.connect(_on_stats_no_health)
     hurtbox.area_entered.connect(_on_hurtbox_area_entered)
     hurtbox.invincibility_started.connect(_on_hurtbox_invincibility_started)
@@ -45,68 +44,49 @@ func _input(event: InputEvent) -> void:
         get_tree().quit()   
 
 func move_state(delta: float) -> void:
-    var input_vector := Vector2(Input.get_axis(&"ui_left", &"ui_right"), Input.get_axis(&"ui_up", &"ui_down"))
-    # to avoid diagonal increased speed
-    input_vector = input_vector.limit_length(1.0)
+    input_vector = Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
     
     # move toward is better than lerp for movement
     if input_vector != Vector2.ZERO:
         # we update blend position with the input vector only when we are moving
-        roll_vector = input_vector
-        animationTree.set(&"parameters/Idle/blend_position", input_vector)
-        animationTree.set(&"parameters/Run/blend_position", input_vector)
-        animationTree.set(&"parameters/Attack/blend_position", input_vector)
-        animationTree.set(&"parameters/Roll/blend_position", input_vector)
-        animationCurrentState.travel(&"Run")
-        # velocity defined in CharacterBody2D already
-        velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
-    else:
-        animationCurrentState.travel(&"Idle")
-        velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-
-    move()
+        last_input_vector = input_vector
+        var direction_vector := Vector2(input_vector.x, -input_vector.y)
+        update_blend_position(direction_vector)
     
     if Input.is_action_just_pressed(&"attack"):
-        state = State.ATTACK
+        playback.travel(&"AttackState")
         
     if Input.is_action_just_pressed(&"roll"):
-        state = State.ROLL
+        playback.travel(&"RollState")
+
+    velocity = velocity.move_toward(input_vector * SPEED, ACCELERATION * delta)
+    move_and_slide()
+
+func update_blend_position(direction_vector: Vector2) -> void:
+    animation_tree.set(&"parameters/StateMachine/MoveState/IdleState/blend_position", direction_vector)
+    animation_tree.set(&"parameters/StateMachine/MoveState/RunState/blend_position", direction_vector)
+    animation_tree.set(&"parameters/StateMachine/AttackState/blend_position", direction_vector)
+    animation_tree.set(&"parameters/StateMachine/RollState/blend_position", direction_vector)
 
 func attack_state() -> void:
     velocity = Vector2.ZERO
-    animationCurrentState.travel(&"Attack")
+    playback.travel(&"AttackState")
     
 func roll_state(delta: float) -> void:
-    velocity = velocity.move_toward(roll_vector * ROLL_SPEED, ACCELERATION * delta)
-    animationCurrentState.travel(&"Roll")
-    move()  
-
-func move() -> void:
-    # applies delta under the hood to velocity
-    move_and_slide()
+    # we need to normalize here to avoid issues with joysticks
+    velocity = velocity.move_toward(last_input_vector.normalized() * ROLL_SPEED, ACCELERATION * delta)
+    playback.travel(&"RollState")
+    move_and_slide()  
 
 func _physics_process(delta: float) -> void:
     # you shouldn't move outside physics process?
-    match state:
-        State.MOVE:
-            move_state(delta)
-        State.ROLL:
-            roll_state(delta)
-        State.ATTACK:
-            attack_state()
-
-func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-    if (anim_name == &"AttackDown"
-    or anim_name == &"AttackUp"
-    or anim_name == &"AttackLeft"
-    or anim_name == &"AttackRight"
-    or anim_name == &"RollDown"
-    or anim_name == &"RollUp"
-    or anim_name == &"RollLeft"
-    or anim_name == &"RollRight"
-    ):
-        velocity = Vector2.ZERO
-        state = State.MOVE
+    var current_state := playback.get_current_node()
+    if current_state == &"MoveState":
+        move_state(delta)
+    if current_state == &"RollState":
+        roll_state(delta)
+    if current_state == &"AttackState":
+        attack_state()
 
 func _on_stats_no_health() -> void:
     queue_free()
@@ -120,11 +100,11 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
         hurtbox.start_invincibility(INVINCIBILITY)
         var offset := Vector2(0, 8)
         hurtbox.create_hit_effect(offset)
-        var hurtSound := playerHurtSound.instantiate()
-        get_tree().current_scene.add_child(hurtSound)
+        var hurt_sound := PLAYER_HURT_SOUND.instantiate()
+        get_tree().current_scene.add_child(hurt_sound)
 
 func _on_hurtbox_invincibility_started() -> void:
-    blinkAnimationPlayer.play("Start")
+    blink_animation_player.play(&"Start")
     
 func _on_hurtbox_invincibility_ended() -> void:
-    blinkAnimationPlayer.play("Stop")
+    blink_animation_player.play(&"Stop")

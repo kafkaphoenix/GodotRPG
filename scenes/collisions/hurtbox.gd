@@ -5,7 +5,7 @@ class_name Hurtbox
 signal invincibility_started
 signal invincibility_ended
 
-const HitEffect: PackedScene = preload("res://assets/Effects/hit_effect.tscn")
+const HIT_EFFECT: PackedScene = preload("res://assets/Effects/hit_effect.tscn")
 @onready var timer: Timer = $Timer
 @onready var collisionShape: CollisionShape2D = $CollisionShape2D
 
@@ -25,9 +25,9 @@ func _ready() -> void:
     invincibility_ended.connect(_on_hurtbox_invincibility_ended)
 
 func create_hit_effect(offset: Vector2 = Vector2(0,0)) -> void:
-    var hitEffect: Node2D  = HitEffect.instantiate()
-    hitEffect.position = self.position - offset
-    get_parent().add_child(hitEffect)
+    var hit_effect: Node2D  = HIT_EFFECT.instantiate()
+    hit_effect.position = self.position - offset
+    get_parent().add_child(hit_effect)
     
 func start_invincibility(duration: float) -> void:
     self.invincible = true

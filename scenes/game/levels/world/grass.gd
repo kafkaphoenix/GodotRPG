@@ -1,6 +1,6 @@
 extends Node2D
 
-const GrassEffect: PackedScene  = preload("res://assets/Effects/grass_effect.tscn") 
+const GRASS_EFFECT: PackedScene  = preload("res://assets/Effects/grass_effect.tscn") 
 @onready var hurtbox: Area2D = $Hurtbox
 
 func _ready() -> void:
@@ -9,9 +9,9 @@ func _ready() -> void:
     hurtbox.area_entered.connect(_on_hurtbox_area_entered)
 
 func create_grass_effect() -> void:
-    var grassEffect: Node2D = GrassEffect.instantiate()
-    grassEffect.position = self.position
-    get_parent().add_child(grassEffect)
+    var grass_effect: Node2D = GRASS_EFFECT.instantiate()
+    grass_effect.position = self.position
+    get_parent().add_child(grass_effect)
 
 func _on_hurtbox_area_entered(_area: Area2D) -> void:
     create_grass_effect()

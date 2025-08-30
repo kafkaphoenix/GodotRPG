@@ -4,6 +4,7 @@ const HEARTH_WIDTH := 15
 
 @onready var heartUIFull:TextureRect = $HeartUIFull
 @onready var heartUIEmpty:TextureRect = $HeartUIEmpty
+@onready var player: Player = get_tree().get_first_node_in_group(&"player")
 
 var max_hearts: int:
     get:
@@ -22,10 +23,10 @@ var hearts: int:
             heartUIFull.size.x = hearts * HEARTH_WIDTH
 
 func _ready() -> void:
-    self.max_hearts = PlayerStats.max_health
-    self.hearts = PlayerStats.health
-    PlayerStats.connect("health_changed", _on_health_changed)
-    PlayerStats.connect("max_health_changed", _on_max_health_changed)
+    self.max_hearts = player.stats.max_health
+    self.hearts = player.stats.health
+    player.stats.connect("health_changed", _on_health_changed)
+    player.stats.connect("max_health_changed", _on_max_health_changed)
     
 func _on_health_changed(value: int) -> void:
     self.hearts = value

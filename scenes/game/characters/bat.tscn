@@ -1,143 +1,247 @@
-[gd_scene load_steps=27 format=3 uid="uid://idyb3vjq4dky"]
+[gd_scene load_steps=29 format=3 uid="uid://idyb3vjq4dky"]
 
 [ext_resource type="Texture2D" uid="uid://bo0um6gbf2apv" path="res://assets/enemies/bat.png" id="1_pw7ta"]
 [ext_resource type="Script" uid="uid://c77741l56gyhb" path="res://scenes/game/characters/bat.gd" id="1_ttswy"]
+[ext_resource type="PackedScene" uid="uid://phnoju6ie1n3" path="res://assets/effects/bat_death_effect.tscn" id="2_ksk2u"]
 [ext_resource type="Texture2D" uid="uid://7srk0k6ximei" path="res://assets/shadows/small_shadow.png" id="2_ymttf"]
-[ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_6yuup"]
-[ext_resource type="PackedScene" uid="uid://b6sueieqp6l76" path="res://scenes/collisions/hurtbox.tscn" id="4_4dxry"]
-[ext_resource type="PackedScene" uid="uid://c2ivyh2b6aqfj" path="res://scenes/game/characters/stats.tscn" id="5_5ijyl"]
-[ext_resource type="PackedScene" uid="uid://bc151gx2jhkb6" path="res://assets/enemies/player_detection_zone.tscn" id="6_h0ik2"]
-[ext_resource type="PackedScene" uid="uid://blsigjq1fpj1d" path="res://scenes/collisions/hitbox.tscn" id="7_7sxg7"]
-[ext_resource type="PackedScene" uid="uid://dgo2ork35u6jt" path="res://scenes/collisions/soft_collision.tscn" id="8_55m0y"]
+[ext_resource type="Script" uid="uid://da2bu6y6nfjbc" path="res://scenes/game/characters/stats.gd" id="3_scdyx"]
+[ext_resource type="Script" uid="uid://cyj5mr8e12l16" path="res://scenes/collisions/hurtbox.gd" id="5_scdyx"]
+[ext_resource type="Script" uid="uid://bn8wk7ma34pmi" path="res://scenes/collisions/hitbox.gd" id="8_od0i7"]
 [ext_resource type="PackedScene" uid="uid://w11uwvdx4vd6" path="res://assets/enemies/wander_controller.tscn" id="9_gj1qt"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_62ri3"]
-resource_local_to_scene = true
-shader = ExtResource("3_6yuup")
-shader_parameter/active = false
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ix3ll"]
-atlas = ExtResource("1_pw7ta")
-region = Rect2(0, 0, 16, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5a6d7"]
-atlas = ExtResource("1_pw7ta")
-region = Rect2(16, 0, 16, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pbp40"]
-atlas = ExtResource("1_pw7ta")
-region = Rect2(32, 0, 16, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_flgro"]
-atlas = ExtResource("1_pw7ta")
-region = Rect2(48, 0, 16, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rfrwn"]
-atlas = ExtResource("1_pw7ta")
-region = Rect2(64, 0, 16, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_8dryq"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ix3ll")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5a6d7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pbp40")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_flgro")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rfrwn")
-}],
-"loop": true,
-"name": &"Fly",
-"speed": 10.0
-}]
+[sub_resource type="Resource" id="Resource_scdyx"]
+script = ExtResource("3_scdyx")
+max_health = 3
+health = 3
+metadata/_custom_type_script = "uid://da2bu6y6nfjbc"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oa003"]
 radius = 4.12311
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_pdftp"]
-radius = 64.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xovo7"]
-radius = 3.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_873si"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_20atd"]
-radius = 6.08276
-
-[sub_resource type="Animation" id="Animation_qa2ki"]
+[sub_resource type="Animation" id="Animation_ksk2u"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:collision_layer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
 }
 
-[sub_resource type="Animation" id="Animation_nn0l4"]
-resource_name = "Start"
-length = 0.2
+[sub_resource type="Animation" id="Animation_od0i7"]
+resource_name = "fly"
+length = 0.5
+loop_mode = 1
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_scdyx"]
+resource_name = "hit"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:collision_layer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_mask")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oa0wl"]
+_data = {
+&"RESET": SubResource("Animation_ksk2u"),
+&"fly": SubResource("Animation_od0i7"),
+&"hit": SubResource("Animation_scdyx")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_od0i7"]
+animation = &"fly"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_scdyx"]
+animation = &"hit"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ksk2u"]
+animation = &"fly"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_oa0wl"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pri51"]
+advance_mode = 2
+advance_expression = "can_see_player()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kva5q"]
+advance_mode = 2
+advance_expression = "not can_see_player()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7gvbb"]
+advance_mode = 2
+advance_expression = "velocity == Vector2(0, 0)"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_h1d04"]
+states/ChaseState/node = SubResource("AnimationNodeAnimation_od0i7")
+states/ChaseState/position = Vector2(503, 203)
+states/HitState/node = SubResource("AnimationNodeAnimation_scdyx")
+states/HitState/position = Vector2(670, 100)
+states/IdleState/node = SubResource("AnimationNodeAnimation_ksk2u")
+states/IdleState/position = Vector2(503, 100)
+transitions = ["Start", "IdleState", SubResource("AnimationNodeStateMachineTransition_oa0wl"), "IdleState", "ChaseState", SubResource("AnimationNodeStateMachineTransition_pri51"), "ChaseState", "IdleState", SubResource("AnimationNodeStateMachineTransition_kva5q"), "HitState", "IdleState", SubResource("AnimationNodeStateMachineTransition_7gvbb")]
+graph_offset = Vector2(176.377, 0)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_8q3ye"]
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_h1d04")
+nodes/StateMachine/position = Vector2(-140, 120)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bs7ls"]
+radius = 6.08276
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ksk2u"]
+radius = 4.0
+
+[sub_resource type="Animation" id="Animation_oa0wl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_7gvbb"]
+resource_name = "blink"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_k1mdp"]
-resource_name = "Stop"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite:material:shader_parameter/active")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_8mkj0"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pri51"]
 _data = {
-&"RESET": SubResource("Animation_qa2ki"),
-&"Start": SubResource("Animation_nn0l4"),
-&"Stop": SubResource("Animation_k1mdp")
+&"RESET": SubResource("Animation_oa0wl"),
+&"blink": SubResource("Animation_7gvbb")
 }
 
 [node name="Bat" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 0
+collision_layer = 4
+collision_mask = 5
+motion_mode = 1
 script = ExtResource("1_ttswy")
+death_effect = ExtResource("2_ksk2u")
+stats = SubResource("Resource_scdyx")
 
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_62ri3")
-sprite_frames = SubResource("SpriteFrames_8dryq")
-animation = &"Fly"
-autoplay = "Fly"
-offset = Vector2(0, -12)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_pw7ta")
+offset = Vector2(-1, -4)
+hframes = 5
 
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.643137)
@@ -145,45 +249,47 @@ show_behind_parent = true
 texture = ExtResource("2_ymttf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_oa003")
 
-[node name="Stats" parent="." instance=ExtResource("5_5ijyl")]
-_max_health = 3
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_oa0wl")
+}
 
-[node name="PlayerDetectionZone" parent="." instance=ExtResource("6_h0ik2")]
-visible = false
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_8q3ye")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
 
-[node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
-modulate = Color(1, 1, 1, 0.372549)
-shape = SubResource("CircleShape2D_pdftp")
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(8, 0)
+collision_mask = 0
 
-[node name="BatHitbox" parent="." instance=ExtResource("7_7sxg7")]
-visible = false
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("5_scdyx")
+metadata/_custom_type_script = "uid://cyj5mr8e12l16"
 
-[node name="CollisionShape2D" parent="BatHitbox" index="0"]
-position = Vector2(0, -16)
-shape = SubResource("CircleShape2D_xovo7")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_bs7ls")
 
-[node name="Hurtbox" parent="." instance=ExtResource("4_4dxry")]
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("8_od0i7")
+metadata/_custom_type_script = "uid://bn8wk7ma34pmi"
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -15)
-shape = SubResource("CapsuleShape2D_873si")
-
-[node name="SoftCollision" parent="." instance=ExtResource("8_55m0y")]
-visible = false
-
-[node name="CollisionShape2D" parent="SoftCollision" index="0"]
-shape = SubResource("CircleShape2D_20atd")
-
-[node name="WanderController" parent="." instance=ExtResource("9_gj1qt")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_ksk2u")
+debug_color = Color(0.822144, 0.343346, 0.54343, 0.42)
 
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_8mkj0")
+&"": SubResource("AnimationLibrary_pri51")
 }
 
-[editable path="PlayerDetectionZone"]
-[editable path="BatHitbox"]
-[editable path="Hurtbox"]
-[editable path="SoftCollision"]
+[node name="WanderController" parent="." instance=ExtResource("9_gj1qt")]

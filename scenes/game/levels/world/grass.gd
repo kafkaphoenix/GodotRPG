@@ -1,18 +1,16 @@
 extends Node2D
 
-const GRASS_EFFECT: PackedScene  = preload("res://assets/Effects/grass_effect.tscn") 
-@onready var hurtbox: Area2D = $Hurtbox
+@export var grass_effect: PackedScene
+
+@onready var hurtbox: Hurtbox = $Hurtbox
 
 func _ready() -> void:
-    hurtbox.set_collision_layer_value(CollisionsLayers.Layers.GRASS, true)
-    hurtbox.set_collision_mask_value(CollisionsLayers.Layers.PLAYERSWORD, true)
-    hurtbox.area_entered.connect(_on_hurtbox_area_entered)
+    hurtbox.set_collision_layer_value(CollisionsLayers.Layers.ENEMY_HURTBOX, true)
+    hurtbox.set_collision_mask_value(CollisionsLayers.Layers.PLAYER, true)
+    hurtbox.hurt.connect(_on_hurt)
 
-func create_grass_effect() -> void:
-    var grass_effect: Node2D = GRASS_EFFECT.instantiate()
-    grass_effect.position = self.position
-    get_parent().add_child(grass_effect)
-
-func _on_hurtbox_area_entered(_area: Area2D) -> void:
-    create_grass_effect()
+func _on_hurt(_other_hitbox: Hitbox) -> void:
+    var grass_effect_instance: Node2D = grass_effect.instantiate()
+    grass_effect_instance.global_position = self.global_position
+    get_tree().current_scene.add_child(grass_effect_instance)
     queue_free()

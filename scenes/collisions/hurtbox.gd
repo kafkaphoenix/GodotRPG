@@ -1,46 +1,12 @@
-extends Area2D
+class_name Hurtbox extends Area2D
 
-class_name Hurtbox
+signal hurt(hitbox: Hitbox)
 
-signal invincibility_started
-signal invincibility_ended
-
-const HIT_EFFECT: PackedScene = preload("res://assets/Effects/hit_effect.tscn")
-@onready var timer: Timer = $Timer
 @onready var collisionShape: CollisionShape2D = $CollisionShape2D
 
-var invincible: bool:
-    get:
-        return invincible
-    set(value):
-        invincible = value
-        if invincible:
-            invincibility_started.emit()
-        else:
-            invincibility_ended.emit()
-
 func _ready() -> void:
-    timer.timeout.connect(_on_timer_timeout)
-    invincibility_started.connect(_on_hurtbox_invincibility_started)
-    invincibility_ended.connect(_on_hurtbox_invincibility_ended)
+    area_entered.connect(_on_area_entered)
 
-func create_hit_effect(offset: Vector2 = Vector2(0,0)) -> void:
-    var hit_effect: Node2D  = HIT_EFFECT.instantiate()
-    hit_effect.position = self.position - offset
-    get_parent().add_child(hit_effect)
-    
-func start_invincibility(duration: float) -> void:
-    self.invincible = true
-    timer.start(duration)
-
-func _on_timer_timeout() -> void:
-    self.invincible = false
-
-func _on_hurtbox_invincibility_started() -> void:
-    # we need to defer setting the variable after the physic process
-    collisionShape.set_deferred("disabled", true)
-    
-func _on_hurtbox_invincibility_ended() -> void:
-    # this one happens after timer so it's okey
-    collisionShape.disabled = false
-    
+func _on_area_entered(other_area: Area2D) -> void:
+    if other_area is not Hitbox: return
+    hurt.emit(other_area)

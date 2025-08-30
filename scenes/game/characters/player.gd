@@ -1,26 +1,20 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
-const PLAYER_HURT_SOUND := preload("res://scenes/game/characters/player_hurt_sound.tscn")
+@export var hurt_sound: PackedScene
+@export var stats: Stats
+@export var speed := 80
+@export var acceleration := 500
+@export var roll_speed := 125
+@export var friction := 500
 
-enum State {
-    MOVE,
-    ROLL,
-    ATTACK
-}
-
-@export var SPEED := 80
-@export var ACCELERATION := 500
-@export var ROLL_SPEED := 125
-@export var FRICTION := 500
-@export var INVINCIBILITY := 0.6
-
-var stats: Stats = PlayerStats
 var input_vector := Vector2.ZERO
-var last_input_vector := Vector2.ZERO
+# default roll if the sprite is looking down too
+# included blend in animation tree state
+var last_input_vector := Vector2.DOWN
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback: AnimationNodeStateMachinePlayback = animation_tree.get(&"parameters/StateMachine/playback")
-@onready var swordHitbox: Hitbox = $HitboxPivot/SwordHitbox
+@onready var weapon_hitbox: Hitbox = $WeaponHitbox
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var blink_animation_player: AnimationPlayer = $BlinkAnimationPlayer
 
@@ -30,14 +24,16 @@ func _ready() -> void:
     motion_mode = MOTION_MODE_FLOATING
     set_collision_layer_value(CollisionsLayers.Layers.PLAYER, true)
     set_collision_mask_value(CollisionsLayers.Layers.WORLD, true)
-    hurtbox.set_collision_layer_value(CollisionsLayers.Layers.PLAYER, true)
-    hurtbox.set_collision_mask_value(CollisionsLayers.Layers.ENEMIES, true)
-    swordHitbox.set_collision_layer_value(CollisionsLayers.Layers.PLAYERSWORD, true)
-    
-    stats.no_health.connect(_on_stats_no_health)
-    hurtbox.area_entered.connect(_on_hurtbox_area_entered)
-    hurtbox.invincibility_started.connect(_on_hurtbox_invincibility_started)
-    hurtbox.invincibility_ended.connect(_on_hurtbox_invincibility_ended)
+    weapon_hitbox.set_collision_layer_value(CollisionsLayers.Layers.PLAYER, true)
+    weapon_hitbox.set_collision_mask_value(CollisionsLayers.Layers.ENEMY_HURTBOX, true)
+    hurtbox.set_collision_layer_value(CollisionsLayers.Layers.PLAYER_HURTBOX, true)
+    hurtbox.set_collision_mask_value(CollisionsLayers.Layers.ENEMY, true)
+    # called after everything has been processed on the current frame
+    hurtbox.hurt.connect(_on_hurt.call_deferred)
+    stats = stats.duplicate()
+    stats.max_health = 4
+    stats.health = 4
+    stats.no_health.connect(_on_no_health)
 
 func _input(event: InputEvent) -> void:
     if event.is_action_pressed(&"ui_cancel"):
@@ -48,9 +44,9 @@ func move_state(delta: float) -> void:
     
     # move toward is better than lerp for movement
     if input_vector != Vector2.ZERO:
-        # we update blend position with the input vector only when we are moving
         last_input_vector = input_vector
         var direction_vector := Vector2(input_vector.x, -input_vector.y)
+        # we update blend position with the input vector only when we are moving
         update_blend_position(direction_vector)
     
     if Input.is_action_just_pressed(&"attack"):
@@ -59,7 +55,7 @@ func move_state(delta: float) -> void:
     if Input.is_action_just_pressed(&"roll"):
         playback.travel(&"RollState")
 
-    velocity = velocity.move_toward(input_vector * SPEED, ACCELERATION * delta)
+    velocity = velocity.move_toward(input_vector * speed, acceleration * delta)
     move_and_slide()
 
 func update_blend_position(direction_vector: Vector2) -> void:
@@ -74,12 +70,11 @@ func attack_state() -> void:
     
 func roll_state(delta: float) -> void:
     # we need to normalize here to avoid issues with joysticks
-    velocity = velocity.move_toward(last_input_vector.normalized() * ROLL_SPEED, ACCELERATION * delta)
+    velocity = velocity.move_toward(last_input_vector.normalized() * roll_speed, acceleration * delta)
     playback.travel(&"RollState")
     move_and_slide()  
 
 func _physics_process(delta: float) -> void:
-    # you shouldn't move outside physics process?
     var current_state := playback.get_current_node()
     if current_state == &"MoveState":
         move_state(delta)
@@ -88,23 +83,14 @@ func _physics_process(delta: float) -> void:
     if current_state == &"AttackState":
         attack_state()
 
-func _on_stats_no_health() -> void:
+func _on_no_health() -> void:
     queue_free()
+    #hide()
+    #remove_from_group(&"player")
+    #process_mode = Node.PROCESS_MODE_DISABLED
 
-func _on_hurtbox_area_entered(area: Area2D) -> void:
-    if area is Hitbox:
-        var direction := -global_position.direction_to(area.global_position)
-        velocity = direction * 100
-        var batHitbox := area as Hitbox
-        stats.health -= batHitbox.damage
-        hurtbox.start_invincibility(INVINCIBILITY)
-        var offset := Vector2(0, 8)
-        hurtbox.create_hit_effect(offset)
-        var hurt_sound := PLAYER_HURT_SOUND.instantiate()
-        get_tree().current_scene.add_child(hurt_sound)
-
-func _on_hurtbox_invincibility_started() -> void:
-    blink_animation_player.play(&"Start")
-    
-func _on_hurtbox_invincibility_ended() -> void:
-    blink_animation_player.play(&"Stop")
+func _on_hurt(other_hitbox: Hitbox) -> void:
+    stats.health -= other_hitbox.damage
+    blink_animation_player.play(&"blink")
+    var hurt_sound_instance := hurt_sound.instantiate()
+    get_tree().current_scene.add_child(hurt_sound_instance)

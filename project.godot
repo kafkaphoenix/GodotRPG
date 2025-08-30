@@ -20,7 +20,6 @@ config/icon="res://assets/icon.png"
 [autoload]
 
 CollisionsLayers="*res://scenes/collisions/collisions_layers.gd"
-PlayerStats="*res://scenes/game/characters/player_stats.tscn"
 
 [debug]
 
@@ -39,6 +38,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=3
+
+[global_group]
+
+player=""
 
 [input]
 
@@ -124,10 +127,10 @@ move_down={
 [layer_names]
 
 2d_physics/layer_1="World"
-2d_physics/layer_2="Player Sword Hitbox"
-2d_physics/layer_3="Grass Hurtbox"
-2d_physics/layer_4="Player"
-2d_physics/layer_5="Enemies Hurtbox"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Player Hurtbox"
+2d_physics/layer_5="Enemy Hurtbox"
 
 [rendering]
 

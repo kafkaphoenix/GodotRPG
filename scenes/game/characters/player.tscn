@@ -1,22 +1,26 @@
-[gd_scene load_steps=66 format=3 uid="uid://cvjm1p33dd754"]
+[gd_scene load_steps=67 format=3 uid="uid://cvjm1p33dd754"]
 
 [ext_resource type="Script" uid="uid://spwtu6n6fgvt" path="res://scenes/game/characters/player.gd" id="1_y04ut"]
+[ext_resource type="PackedScene" uid="uid://dgf4s2ktne6ug" path="res://scenes/game/characters/player_hurt_sound.tscn" id="2_14w1c"]
 [ext_resource type="Texture2D" uid="uid://c5vuoxykmyxlo" path="res://assets/player/player.png" id="2_q5gxf"]
 [ext_resource type="Shader" uid="uid://dvwvwks2xaaa6" path="res://scenes/game/characters/blink.gdshader" id="3_3ed8y"]
-[ext_resource type="PackedScene" uid="uid://blsigjq1fpj1d" path="res://scenes/collisions/hitbox.tscn" id="3_pgtue"]
+[ext_resource type="Script" uid="uid://da2bu6y6nfjbc" path="res://scenes/game/characters/stats.gd" id="3_xp3x1"]
 [ext_resource type="AudioStream" uid="uid://c6mysjvqbfttd" path="res://assets/sounds/swipe.wav" id="4_fjot2"]
 [ext_resource type="AudioStream" uid="uid://clpoxum6awjb4" path="res://assets/sounds/evade.wav" id="5_hv62b"]
-[ext_resource type="PackedScene" uid="uid://b6sueieqp6l76" path="res://scenes/collisions/hurtbox.tscn" id="5_yesoh"]
 [ext_resource type="Texture2D" uid="uid://dgigxcr1h0trt" path="res://assets/shadows/medium_shadow.png" id="6_xm727"]
+[ext_resource type="Script" uid="uid://bn8wk7ma34pmi" path="res://scenes/collisions/hitbox.gd" id="7_lho7s"]
+[ext_resource type="Script" uid="uid://cyj5mr8e12l16" path="res://scenes/collisions/hurtbox.gd" id="10_8wi8w"]
+
+[sub_resource type="Resource" id="Resource_8wi8w"]
+script = ExtResource("3_xp3x1")
+max_health = 4
+health = 4
+metadata/_custom_type_script = "uid://da2bu6y6nfjbc"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v8vee"]
 resource_local_to_scene = true
 shader = ExtResource("3_3ed8y")
 shader_parameter/active = false
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5uhqi"]
-radius = 3.99937
-height = 11.9981
 
 [sub_resource type="Animation" id="Animation_bg3q1"]
 resource_name = "AttackDown"
@@ -34,37 +38,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [36, 37, 38, 39]
 }
-tracks/1/type = "value"
+tracks/1/type = "audio"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HitboxPivot:rotation")
+tracks/1/path = NodePath("PlayerSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1.5708]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HitboxPivot/SwordHitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/3/type = "audio"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PlayerSound")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
@@ -76,7 +56,31 @@ tracks/3/keys = {
 }],
 "times": PackedFloat32Array(0.1, 0.1001)
 }
-tracks/3/use_blend = true
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHitbox/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(6, -6, 17, -6, 18, -5, 18, -4, 17, -3, 6, -3), PackedVector2Array(16, 2, 16, 7, 13, 14, 9, 18, 5, 20, 1, 21, -4, 21, -4, 8, 7, 7, 13, 5), PackedVector2Array(-11, 2, -21, 8, -14, 17, -3, 21, 7, 19, 13, 14, 15, 10, 16, 7, 16, 2, 14, 6, 10, 10, 0, 11, -4, 8), PackedVector2Array(-10, -6, -22, -6, -22, -1, -18, 5, -15, 6, -16, 1, -13, -2, -10, -3), PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHitbox:knockback_direction")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_n8ouo"]
 resource_name = "AttackLeft"
@@ -94,37 +98,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [32, 33, 34, 35]
 }
-tracks/1/type = "value"
+tracks/1/type = "audio"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HitboxPivot:rotation")
+tracks/1/path = NodePath("PlayerSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3.14159]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HitboxPivot/SwordHitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/3/type = "audio"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PlayerSound")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
@@ -136,7 +116,31 @@ tracks/3/keys = {
 }],
 "times": PackedFloat32Array(0.1, 0.1001)
 }
-tracks/3/use_blend = true
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHitbox/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(-1, -26, -2, -25, -2, -19, 1, -19, 1, -25), PackedVector2Array(-27, -3, -25, -11, -21, -17, -15, -20, -7, -22, -3, -22, -2, -20, -6, -18, -9, -15, -12, -10, -12, -2, -26, -2), PackedVector2Array(-8, 11, -11, 11, -16, 9, -22, 5, -25, 1, -26, -8, -24, -13, -21, -17, -15, -20, -12, -21, -6, -21, -6, -20, -9, -19, -12, -18, -15, -13, -15, -9, -11, -4, -5, -2, -3, 0, -8, 11), PackedVector2Array(0, 1, -1, 6, -6, 8, -12, 8, -11, 10, -8, 11, -3, 12, 2, 12, 3, 11, 3, 1), PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHitbox:knockback_direction")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(-1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_40nh6"]
 resource_name = "AttackRight"
@@ -154,37 +158,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [24, 25, 26, 27]
 }
-tracks/1/type = "value"
+tracks/1/type = "audio"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HitboxPivot:rotation")
+tracks/1/path = NodePath("PlayerSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HitboxPivot/SwordHitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/3/type = "audio"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PlayerSound")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
@@ -196,7 +176,31 @@ tracks/3/keys = {
 }],
 "times": PackedFloat32Array(0.1, 0.1001)
 }
-tracks/3/use_blend = true
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHitbox/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(0, -26, -1, -25, -1, -19, 2, -19, 2, -25), PackedVector2Array(12, -2, 26, -2, 26, -8, 24, -13, 21, -17, 15, -20, 7, -22, 3, -22, 2, -20, 6, -18, 10, -13, 12, -7), PackedVector2Array(6, -21, 12, -21, 19, -18, 21, -17, 25, -11, 26, -8, 26, -2, 24, 2, 22, 5, 17, 8, 16, 9, 11, 11, 8, 11, 5, 6, 3, 2, 4, -2, 11, -4, 15, -6, 15, -13, 12, -18), PackedVector2Array(-3, 1, -3, 12, 3, 12, 8, 11, 12, 9, 10, 8, 6, 9, 3, 6, 0, 4, 0, 1), PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHitbox:knockback_direction")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_4q2lj"]
 resource_name = "AttackUp"
@@ -214,37 +218,13 @@ tracks/0/keys = {
 "update": 1,
 "values": [28, 29, 30, 31]
 }
-tracks/1/type = "value"
+tracks/1/type = "audio"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HitboxPivot:rotation")
+tracks/1/path = NodePath("PlayerSound")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4.71239]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("HitboxPivot/SwordHitbox/CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/3/type = "audio"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PlayerSound")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
@@ -256,7 +236,31 @@ tracks/3/keys = {
 }],
 "times": PackedFloat32Array(0.1, 0.1001)
 }
-tracks/3/use_blend = true
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHitbox/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(-21, -8, -20, -10, -9, -10, -9, -7, -20, -7), PackedVector2Array(1, -28, -4, -28, -10, -26, -14, -23, -17, -19, -19, -15, -20, -12, -20, -6, -17, -9, -14, -13, -10, -15, 1, -18), PackedVector2Array(19, -16, 16, -21, 12, -25, 8, -27, 3, -28, -4, -28, -12, -25, -17, -19, -18, -15, -14, -18, -11, -20, 1, -20, 9, -10, 13, -11, 17, -13), PackedVector2Array(10, -8, 10, -5, 21, -5, 21, -13, 18, -19, 15, -21, 16, -14, 13, -8), PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHitbox:knockback_direction")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, -1)]
+}
 
 [sub_resource type="Animation" id="Animation_ysyfm"]
 resource_name = "IdleDown"
@@ -343,26 +347,38 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("HitboxPivot:rotation")
+tracks/1/path = NodePath("WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [3.14159]
+"values": [PackedVector2Array()]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("HitboxPivot/SwordHitbox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("WeaponHitbox:knockback_direction")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_osgsx"]
@@ -396,6 +412,18 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1)
 }
 tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.405207),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_qcccp"]
 resource_name = "RollLeft"
@@ -428,6 +456,18 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1)
 }
 tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.405207),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_215y6"]
 resource_name = "RollRight"
@@ -460,6 +500,18 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1)
 }
 tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.405207),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_tgrby"]
 resource_name = "RollUp"
@@ -492,6 +544,18 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1)
 }
 tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.405207),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="Animation" id="Animation_m7ssj"]
 resource_name = "RunDown"
@@ -724,80 +788,88 @@ states/RollState/position = Vector2(287, 67)
 states/Start/position = Vector2(93, 163)
 transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTransition_famfw"), "MoveState", "AttackState", SubResource("AnimationNodeStateMachineTransition_uptvo"), "AttackState", "MoveState", SubResource("AnimationNodeStateMachineTransition_7hxea"), "MoveState", "RollState", SubResource("AnimationNodeStateMachineTransition_y1jba"), "RollState", "MoveState", SubResource("AnimationNodeStateMachineTransition_jo77c")]
 
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_xp3x1"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_14w1c"]
-graph_offset = Vector2(31, -3)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_uptvo")
 nodes/StateMachine/position = Vector2(40, 120)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_xp3x1")
+nodes/TimeScale/position = Vector2(380, 140)
 nodes/output/position = Vector2(640, 160)
-node_connections = [&"output", 0, &"StateMachine"]
+node_connections = [&"TimeScale", 0, &"StateMachine", &"output", 0, &"TimeScale"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s8xkg"]
-height = 32.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdvct"]
+size = Vector2(9, 11)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wbuhp"]
-radius = 5.0
-height = 16.0
-
-[sub_resource type="Animation" id="Animation_s1abu"]
+[sub_resource type="Animation" id="Animation_8wi8w"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_ksdvb"]
-resource_name = "Start"
-length = 0.2
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_xp3x1"]
+resource_name = "blink"
+length = 0.5
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/path = NodePath("Sprite2D:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_7fpyi"]
-resource_name = "Stop"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rqvll"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vdvct"]
 _data = {
-&"RESET": SubResource("Animation_s1abu"),
-&"Start": SubResource("Animation_ksdvb"),
-&"Stop": SubResource("Animation_7fpyi")
+&"RESET": SubResource("Animation_8wi8w"),
+&"blink": SubResource("Animation_xp3x1")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_y04ut")
+hurt_sound = ExtResource("2_14w1c")
+stats = SubResource("Resource_8wi8w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_v8vee")
@@ -812,10 +884,10 @@ show_behind_parent = true
 position = Vector2(-1, 2)
 texture = ExtResource("6_xm727")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -1.07288e-06)
 rotation = 1.55306
-shape = SubResource("CapsuleShape2D_5uhqi")
+polygon = PackedVector2Array(-8.99858, -0.159618, -3.0882, 4.94601, 2.99953, 0.053206, -2.91085, -5.05242)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 deterministic = true
@@ -829,35 +901,34 @@ tree_root = SubResource("AnimationNodeBlendTree_14w1c")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/StateMachine/AttackState/blend_position = Vector2(-0.003268, -0.460396)
-parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(-0.00142246, -0.361386)
+parameters/StateMachine/MoveState/IdleState/blend_position = Vector2(0.0148572, -0.261708)
 parameters/StateMachine/MoveState/RunState/blend_position = Vector2(-0.013986, -0.430693)
 parameters/StateMachine/RollState/blend_position = Vector2(-0.003268, -0.355372)
-
-[node name="HitboxPivot" type="Marker2D" parent="."]
-position = Vector2(0, -4)
-rotation = 3.14159
-gizmo_extents = 8.0
-
-[node name="SwordHitbox" parent="HitboxPivot" instance=ExtResource("3_pgtue")]
-position = Vector2(15, 0)
-
-[node name="CollisionShape2D" parent="HitboxPivot/SwordHitbox" index="0"]
-shape = SubResource("CapsuleShape2D_s8xkg")
-disabled = true
-
-[node name="Hurtbox" parent="." instance=ExtResource("5_yesoh")]
-
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, -5)
-shape = SubResource("CapsuleShape2D_wbuhp")
+parameters/TimeScale/scale = 1.0
 
 [node name="PlayerSound" type="AudioStreamPlayer" parent="."]
 volume_db = -15.0
 
+[node name="WeaponHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("7_lho7s")
+knockback_direction = Vector2(0, 1)
+metadata/_custom_type_script = "uid://bn8wk7ma34pmi"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WeaponHitbox"]
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("10_8wi8w")
+metadata/_custom_type_script = "uid://cyj5mr8e12l16"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-0.5, -2.5)
+shape = SubResource("RectangleShape2D_vdvct")
+
 [node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-&"": SubResource("AnimationLibrary_rqvll")
+&"": SubResource("AnimationLibrary_vdvct")
 }
-
-[editable path="HitboxPivot/SwordHitbox"]
-[editable path="Hurtbox"]
